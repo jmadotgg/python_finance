@@ -1,5 +1,5 @@
 [[source]]
-name = "pypi"
+name = "python_finance"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
@@ -7,6 +7,12 @@ verify_ssl = true
 pylint = "*"
 
 [packages]
+alpha-vantage = "*"
+matplotlib = "*"
+numpy = "*"
+pandas = "*"
+selenium = "*"
+pandas-datareader = "*"
 
 [requires]
 python_version = "3.7"
