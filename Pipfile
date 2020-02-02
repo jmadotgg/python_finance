@@ -13,6 +13,7 @@ numpy = "*"
 pandas = "*"
 selenium = "*"
 pandas-datareader = "*"
+flask = "*"
 
 [requires]
 python_version = "3.7"
