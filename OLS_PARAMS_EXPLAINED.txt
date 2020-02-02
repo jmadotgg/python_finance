@@ -1,0 +1,69 @@
+## Table
+
+OLS Regression Results
+==============================================================================
+Dep. Variable:                   MSFT   R-squared:                       0.281
+Model:                            OLS   Adj. R-squared:                  0.280
+Method:                 Least Squares   F-statistic:                     515.5
+Date:                Tue, 14 Jan 2020   Prob (F-statistic):           1.33e-96
+Time:                        17:56:38   Log-Likelihood:                 3514.0
+No. Observations:                1322   AIC:                            -7024.
+Df Residuals:                    1320   BIC:                            -7014.
+Df Model:                           1
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -0.0005      0.000     -1.119      0.263      -0.001       0.000
+AAPL           0.4407      0.019     22.704      0.000       0.403       0.479
+==============================================================================
+Omnibus:                      268.594   Durbin-Watson:                   2.074
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             7029.465
+Skew:                          -0.211   Prob(JB):                         0.00
+Kurtosis:                      14.289   Cond. No.                         41.6
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+## Explanation (https://www.datacamp.com/community/tutorials/finance-python-trading)
+
+Note that you add [1:] to the concatenation of the AAPL and MSFT return data so that you don’t have any NaN values that can interfere with your model.
+
+Things to look out for when you’re studying the result of the model summary are the following:
+
+The Dep. Variable, which indicates which variable is the response in the model
+The Model, in this case, is OLS. It’s the model you’re using in the fit
+Additionally, you also have the Method to indicate how the parameters of the model were calculated. In this case, you see that this is set at Least Squares.
+
+Up until now, you haven’t seen much new information. You have basically set all of these in the code that you ran in the DataCamp Light chunk. However, there are also other things that you could find interesting, such as:
+
+The number of observations (No. Observations). Note that you could also derive this with the Pandas package by using the info() function. Run return_data.info() in the IPython console of the DataCamp Light chunk above to confirm this.
+The degree of freedom of the residuals (DF Residuals)
+The number of parameters in the model, indicated by DF Model; Note that the number doesn’t include the constant term X which was defined in the code above.
+
+This was basically the whole left column that you went over. The right column gives you some more insight into the goodness of the fit. You see, for example:
+
+R-squared, which is the coefficient of determination. This score indicates how well the regression line approximates the real data points. In this case, the result is 0.280. In percentages, this means that the score is at 28%. When the score is 0%, it indicates that the model explains none of the variability of the response data around its mean. Of course, a score of 100% indicates the opposite.
+You also see the Adj. R-squared score, which at first sight gives the same number. However, the calculation behind this metric adjusts the R-Squared value based on the number of observations and the degrees-of-freedom of the residuals (registered in DF Residuals). The adjustment in this case hasn’t had much effect, as the result of the adjusted score is still the same as the regular R-squared score.
+The F-statistic measures how significant the fit is. It is calculated by dividing the mean squared error of the model by the mean squared error of the residuals. The F-statistic for this model is 514.2.
+Next, there’s also the Prob (F-statistic), which indicates the probability that you would get the result of the F-statistic, given the null hypothesis that they are unrelated.
+The Log-likelihood indicates the log of the likelihood function, which is, in this case 3513.2.
+The AIC is the Akaike Information Criterion: this metric adjusts the log-likelihood based on the number of observations and the complexity of the model. The AIC of this model is -7022.
+Lastly, the BIC or the Bayesian Information Criterion, is similar to the AIC that you just have seen, but it penalizes models with more parameters more severely. Given the fact that this model only has one parameter (check DF Model), the BIC score will be the same as the AIC score.
+
+Below the first part of the model summary, you see reports for each of the model’s coefficients:
+
+The estimated value of the coefficient is registered at coef.
+std err is the standard error of the estimate of the coefficient.
+There’s also the t-statistic value, which you’ll find under t. This metric is used to measure how statistically significant a coefficient is.
+P > |t| indicates the null-hypothesis that the coefficient = 0 is true. If it is less than the confidence level, often 0.05, it indicates that there is a statistically significant relationship between the term and the response. In this case, you see that the constant has a value of 0.198, while AAPL is set at 0.000.
+
+Lastly, there is a final part of the model summary in which you’ll see other statistical tests to assess the distribution of the residuals:
+
+Omnibus, which is the Omnibus D’Angostino’s test: it provides a combined statistical test for the presence of skewness and kurtosis.
+The Prob(Omnibus) is the Omnibus metric turned into a probability.
+Next, the Skew or Skewness measures the symmetry of the data about the mean.
+The Kurtosis gives an indication of the shape of the distribution, as it compares the amount of data close to the mean with those far away from the mean (in the tails).
+Durbin-Watson is a test for the presence of autocorrelation, and the Jarque-Bera is another test of the skewness and kurtosis. You can also turn the result of this test into a probability, as you can see in Prob (JB).
+Lastly, you have the Cond. No, which tests the multicollinearity.
