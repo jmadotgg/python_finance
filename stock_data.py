@@ -5,32 +5,14 @@ import pandas_datareader as pdr
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-
-
-import datetime
+import time
+import math
+# import datetime
 from pprint import pprint
 
-# dt_unix = datetime.datetime.utcnow().timestamp();
-# print('Unix Time:', dt_unix)
-# gainers = Gainers.now_gainers(5)
-# print("Gainers:", gainers)
+dt_unix_now = math.floor(time.time());
+print(dt_unix)
 
-# def replaceIt(value, sym):
-#     for x in sym:
-#         value = value.replace(x, '')
-#     return value
-
-# def plotIntraday(symbols, interval, outputsize):
-#     for symbol in symbols:
-#         data, meta_data = ts.get_intraday(symbol=symbol, interval=interval, outputsize=outputsize)
-#         data['4. close'].plot()
-#     plt.title('Intraday Times Series for the ' + replaceIt(str(symbols), ['[', ']', "'"]) + ' stocks (' + interval + ')')
-#     plt.show() 
-
-
-# plotIntraday([gainers[0]], '60min', 'full')
-
-# ti = TechIndicators(key='RAVFAINVUAJHR2EW', output_format='pandas')
 
 
 ts = TimeSeries(key='RAVFAINVUAJHR2EW', output_format='pandas')
@@ -87,3 +69,24 @@ class Stocks():
 # ax1.plot(signals.loc[signals.positions == -1.0].index, signals.short_mavg[signals.positions == -1.0], 'v', markersize=10, color='k')
 
 # plt.show()
+
+
+# gainers = Gainers.now_gainers(5)
+# print("Gainers:", gainers)
+
+# def replaceIt(value, sym):
+#     for x in sym:
+#         value = value.replace(x, '')
+#     return value
+
+# def plotIntraday(symbols, interval, outputsize):
+#     for symbol in symbols:
+#         data, meta_data = ts.get_intraday(symbol=symbol, interval=interval, outputsize=outputsize)
+#         data['4. close'].plot()
+#     plt.title('Intraday Times Series for the ' + replaceIt(str(symbols), ['[', ']', "'"]) + ' stocks (' + interval + ')')
+#     plt.show() 
+
+
+# plotIntraday([gainers[0]], '60min', 'full')
+
+# ti = TechIndicators(key='RAVFAINVUAJHR2EW', output_format='pandas')
