@@ -13,7 +13,6 @@ def hello():
 @app.route('/gainers')
 def gainers():
     print(time.time())
-    
     g_gainers = Gainers.get_yahoo_gainers(5)
     return {'gainers': g_gainers}
 
