@@ -1,6 +1,8 @@
 from flask import Flask, request, redirect, jsonify
 from gainers import Gainers
 from stock_data import Stocks
+import time
+
 
 app = Flask('python_finance', static_url_path='', static_folder='/src')
 
@@ -10,6 +12,7 @@ def hello():
 
 @app.route('/gainers')
 def gainers():
+    print(time.time())
     g_gainers = Gainers.get_yahoo_gainers(5)
     return {'gainers': g_gainers}
 
