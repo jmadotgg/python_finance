@@ -8,10 +8,11 @@ import numpy as np
 import time
 import math
 # import datetime
+import gainers
 from pprint import pprint
+import threading
 
-dt_unix_now = math.floor(time.time());
-print(dt_unix)
+
 
 
 
@@ -26,14 +27,15 @@ class Stocks():
        self.long_window = long_window
        
     def analyze(self):
-        for index, symbol in enumerate(self.symbols, start=0):
-            print(symbol, index)
-            data, meta_data = ts.get_intraday(symbol=symbol, interval=self.interval, outputsize=self.outputsize)
-            signals = pd.DataFrame(index=data.index) if index == 0 else signals
-            signals[(symbol + ' short_mavg')] = data['4. close'].rolling(window=self.short_window, min_periods=1, center=False).mean()
-            signals[(symbol + ' long_mavg')] = data['4. close'].rolling(window=self.long_window, min_periods=1, center=False).mean()
-        return signals
-        # signals = pd.DataFrame(index=)
+            for index, symbol in enumerate(self.symbols, start=0):
+                print(symbol, index)
+                data, meta_data = ts.get_intraday(symbol=symbol, interval=self.interval, outputsize=self.outputsize)
+                signals = pd.DataFrame(index=data.index) if index == 0 else signals
+                signals[(symbol + ' short_mavg')] = data['4. close'].rolling(window=self.short_window, min_periods=1, center=False).mean()
+                signals[(symbol + ' long_mavg')] = data['4. close'].rolling(window=self.long_window, min_periods=1, center=False).mean()
+            return signals
+ 
+      
 
 # # data, meta_data = ti.get_sma(symbol="MSFT", interval='1min', series_type='close', time_period=1440)
 # data, meta_data = ts.get_intraday(symbol='AAPL', interval='1min', outputsize='full')
