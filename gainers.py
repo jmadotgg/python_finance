@@ -5,10 +5,11 @@ options = webdriver.ChromeOptions();
 # Stop selenium from actually opening a browser window
 options.add_argument('headless')
 options.add_argument("--log-level=3")
-browser = webdriver.Chrome(options=options)
-browser.get(url)
+
 
 def get_yahoo_gainers(max_iterations):
+    browser = webdriver.Chrome(options=options)
+    browser.get(url)
     def now_gainers(general_xpath, iterate_variable, max_iterations):
         yahoo_gainers = []
         for x in range(max_iterations):

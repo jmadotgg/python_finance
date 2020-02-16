@@ -25,18 +25,23 @@ class Stocks():
        self.outputsize = outputsize
        self.short_window = short_window
        self.long_window = long_window
+       self.mavgs = None
+       self.signals = None
        
     def analyze(self):
-            for index, symbol in enumerate(self.symbols, start=0):
-                print(symbol, index)
-                data, meta_data = ts.get_intraday(symbol=symbol, interval=self.interval, outputsize=self.outputsize)
-                signals = pd.DataFrame(index=data.index) if index == 0 else signals
-                signals[(symbol + ' short_mavg')] = data['4. close'].rolling(window=self.short_window, min_periods=1, center=False).mean()
-                signals[(symbol + ' long_mavg')] = data['4. close'].rolling(window=self.long_window, min_periods=1, center=False).mean()
-            return signals
+        for index, symbol in enumerate(self.symbols, start=0):
+            print(symbol, index)
+            data, meta_data = ts.get_intraday(symbol=symbol, interval=self.interval, outputsize=self.outputsize)
+            self.mavgs = pd.DataFrame(index=data.index) if index == 0 else self.mavgs
+            self.mavgs[(symbol + ' short_mavg')] = data['4. close'].rolling(window=self.short_window, min_periods=1, center=False).mean()
+            self.mavgs[(symbol + ' long_mavg')] = data['4. close'].rolling(window=self.long_window, min_periods=1, center=False).mean()
+            
+            self.signals = pd.DataFrame(index=data.index) if index == 0 else self.signals
+            self.signals[(symbol + ' signal')] = 0.0
+            self.signals[(symbol + ' signal')][self.short_window:] = np.where(self.mavgs[(symbol + ' short_mavg')][self.short_window] > self.mavgs[(symbol + ' long_mavg')][self.short_window], 1.0, 0.0)
+        print(self.signals)
+        return self.mavgs
  
-      
-
 # # data, meta_data = ti.get_sma(symbol="MSFT", interval='1min', series_type='close', time_period=1440)
 # data, meta_data = ts.get_intraday(symbol='AAPL', interval='1min', outputsize='full')
 # # data, meta_data = ts.get_daily(symbol='AAPL', outputsize='compact')
