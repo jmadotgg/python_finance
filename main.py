@@ -1,11 +1,15 @@
 from flask import Flask, request, redirect, jsonify
 from gainers import get_yahoo_gainers
-from stock_data import Stocks
+from trader import Trader
+from trader import Trader
 import time
 import threading
 import math
 from queue import Queue
-
+from pprint import pprint
+import json
+import sys
+import os
 # app = Flask('python_finance', static_url_path='', static_folder='/src')
 
 # @app.route('/')
@@ -112,25 +116,21 @@ from queue import Queue
 # """ waits until the queue is empty and all of the threads are done working 
 #  (which it knows because task_done() will have been called on every element of the queue)
 # """
-
+buy_and_sell = Trader(interval='60min', outputsize='full', short_window=60, long_window=150, budget=1000)
 def gainers(q):
     while True:
-        print()
-        print('Scraping Yahoo gainers (' +  str(threading.currentThread()) + ')')
-        q.put(get_yahoo_gainers(5))
+        print('Looking up stocks on yahoo')
+        q.put(get_yahoo_gainers(15))
         q.task_done()
-        print('Sleeping for 30 seconds (' + str(threading.currentThread()) + ')')
         time.sleep(30)
         
 def stocks(q):
     while True:
         gainers = q.get()
-        print('Getting stock data from alpha vantage (' + str(threading.currentThread()) + ')')
-        stocks = Stocks(gainers, '60min', 'compact', 60, 100)
-        mavgs = stocks.analyze()
-        print(mavgs)
-        print('Sleeping for 60 seconds (' + str(threading.currentThread()) + ')')
-        time.sleep(60)
+        print('Getting stock data from alpha vantage') # str(threading.currentThread())
+        buy_and_sell.trade(gainers)
+        # print('Sleeping for 60 seconds')
+        # time.sleep(60)
        
 q = Queue(maxsize=0)
 
@@ -142,5 +142,15 @@ s_thread.daemon = True
 s_thread.start()
 
 while True:
-    time.sleep(10)
-    q.join()
+    try: 
+        time.sleep(10)
+        q.join()
+    except KeyboardInterrupt:
+        print('Preparing shutdown ...')
+        buy_and_sell.createBackup()
+        print('Backup created ...')
+        try:
+            print('Shutting down ...')
+            sys.exit(1)
+        except SystemExit:
+            os._exit(1)

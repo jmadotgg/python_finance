@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+autopep8 = "*"
 
 [packages]
 alpha-vantage = "*"
@@ -18,3 +19,6 @@ queue = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+pyfi= "python main.py"
